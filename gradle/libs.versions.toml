@@ -14,7 +14,7 @@ hilt = "2.50"
 room = "2.6.1"
 okhttp-bom = "4.12.0"
 retrofit = "2.10.0-SNAPSHOT"
-yandex-mapkit = "4.4.0-lite"
+yandex-mapkit = "4.5.0-lite"
 # Tests
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"

@@ -8,4 +8,5 @@ interface CoffeeShopsRepository {
     suspend fun refreshAll()
 
     fun getCoffeeShopsStream(): Flow<List<CoffeeShop>>
+    suspend fun getCoffeeShopById(id: Long): CoffeeShop?
 }

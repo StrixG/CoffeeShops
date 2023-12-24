@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/brown</item>
         <item name="colorContainer">@color/beige</item>
         <item name="colorOnContainer">@color/brown</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
     </style>
 </resources>

@@ -33,4 +33,10 @@ class DefaultCoffeeShopsRepository @Inject constructor(
             }
         }
     }
+
+    override suspend fun getCoffeeShopById(id: Long): CoffeeShop? {
+        return coffeeShopsDao.getById(id)?.run {
+            CoffeeShop(id, name, point, point.latitude.toLong())
+        }
+    }
 }

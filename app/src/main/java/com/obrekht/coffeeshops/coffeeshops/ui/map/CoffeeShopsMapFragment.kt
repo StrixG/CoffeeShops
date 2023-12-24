@@ -3,6 +3,7 @@ package com.obrekht.coffeeshops.coffeeshops.ui.map
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -82,6 +83,21 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
             WindowInsetsCompat.CONSUMED
         }
 
+        // Restore map state
+        savedInstanceState?.run {
+            map?.move(
+                CameraPosition(
+                    Point(
+                        getDouble(KEY_CAMERA_POSITION_LATITUDE),
+                        getDouble(KEY_CAMERA_POSITION_LONGITUDE)
+                    ),
+                    getFloat(KEY_CAMERA_POSITION_ZOOM),
+                    getFloat(KEY_CAMERA_POSITION_AZIMUTH),
+                    getFloat(KEY_CAMERA_POSITION_TILT)
+                )
+            )
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { uiState ->
@@ -127,6 +143,20 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
         super.onStop()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        map?.cameraPosition?.run {
+            outState.putAll(
+                bundleOf(
+                    KEY_CAMERA_POSITION_LATITUDE to target.latitude,
+                    KEY_CAMERA_POSITION_LONGITUDE to target.longitude,
+                    KEY_CAMERA_POSITION_ZOOM to zoom,
+                    KEY_CAMERA_POSITION_AZIMUTH to azimuth,
+                    KEY_CAMERA_POSITION_TILT to tilt
+                )
+            )
+        }
+    }
+
     private fun addCoffeeShopOnMap(coffeeShop: CoffeeShop) {
         val placemarkCollection = placemarkCollection ?: return
         val textColor = resources.getColor(R.color.brown, context?.theme)
@@ -151,5 +181,11 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
         private const val DEFAULT_ZOOM = 15f
         private const val DEFAULT_ROTATION = 0f
         private const val DEFAULT_TILT = 0f
+
+        private const val KEY_CAMERA_POSITION_LATITUDE = "camera_position_latitude"
+        private const val KEY_CAMERA_POSITION_LONGITUDE = "camera_position_longitude"
+        private const val KEY_CAMERA_POSITION_ZOOM = "camera_position_zoom"
+        private const val KEY_CAMERA_POSITION_AZIMUTH = "camera_position_azimuth"
+        private const val KEY_CAMERA_POSITION_TILT = "camera_position_tilt"
     }
 }

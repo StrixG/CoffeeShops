@@ -39,7 +39,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun signUp(email: String, password: String, passwordConfirmation: String) {
-        val errorEvent = if (email.isBlank() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        val validationErrorEvent = if (email.isBlank() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             UiEvent.ErrorInvalidEmail
         } else if (password.isBlank()) {
             UiEvent.ErrorEmptyPassword
@@ -47,9 +47,9 @@ class SignUpViewModel @Inject constructor(
             UiEvent.ErrorPasswordsDoNotMatch
         } else null
 
-        if (errorEvent != null) {
+        if (validationErrorEvent != null) {
             viewModelScope.launch {
-                _uiEvent.send(errorEvent)
+                _uiEvent.send(validationErrorEvent)
             }
             return
         }

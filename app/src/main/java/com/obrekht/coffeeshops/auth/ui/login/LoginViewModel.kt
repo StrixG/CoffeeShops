@@ -40,15 +40,15 @@ class LoginViewModel @Inject constructor(
     fun logIn(email: String, password: String) {
         if (uiState.value.isLoading) return
 
-        val errorEvent = if (email.isBlank()) {
+        val validationErrorEvent = if (email.isBlank()) {
             UiEvent.ErrorEmptyEmail
         } else if (password.isBlank()) {
             UiEvent.ErrorEmptyPassword
         } else null
 
-        if (errorEvent != null) {
+        if (validationErrorEvent != null) {
             viewModelScope.launch {
-                _uiEvent.send(errorEvent)
+                _uiEvent.send(validationErrorEvent)
             }
             return
         }

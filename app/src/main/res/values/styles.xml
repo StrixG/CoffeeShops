@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.App.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="titleTextColor">@color/brown</item>
+    </style>
+
+    <style name="Widget.App.Button" parent="Widget.Material3.Button.ElevatedButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
+    </style>
+
+    <style name="Widget.App.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button.Secondary</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button" parent="ThemeOverlay.Material3.Button.TextButton">
+        <item name="colorContainer">@color/dark_brown</item>
+        <item name="colorOnContainer">@color/beige</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button.Secondary" parent="ThemeOverlay.Material3.Button.TextButton">
+        <item name="colorOnContainer">@color/brown</item>
+        <item name="colorOutline">@color/brown</item>
+    </style>
+</resources>

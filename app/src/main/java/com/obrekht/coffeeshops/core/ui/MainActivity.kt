@@ -1,12 +1,36 @@
 package com.obrekht.coffeeshops.core.ui
 
+import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.obrekht.coffeeshops.R
+import com.obrekht.coffeeshops.databinding.ActivityMainBinding
+import com.yandex.mapkit.MapKitFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val systemBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+        enableEdgeToEdge(systemBarStyle, systemBarStyle)
+        MapKitFactory.initialize(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val appBarConfiguration = AppBarConfiguration(
+            topLevelDestinationIds = setOf(R.id.sign_up_fragment, R.id.nearby_coffee_shops_fragment)
+        )
+        val navController = binding.fragmentContainer.getFragment<NavHostFragment>().navController
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 }

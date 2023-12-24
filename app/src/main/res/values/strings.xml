@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Coffee Shops</string>
+    <string name="auth_hint_email">e-mail</string>
+    <string name="auth_hint_password">Password</string>
+    <string name="auth_hint_password_confirm">Confirm password</string>
+    <string name="label_sign_up">Sign Up</string>
+    <string name="label_login">Login</string>
+    <string name="error_passwords_do_not_match">Passwords do not match.</string>
+    <string name="error_invalid_email">Please, enter valid email.</string>
+    <string name="error_empty_password">Password cannot be empty.</string>
+    <string name="on_map">On Map</string>
+    <string name="label_coffee_shops_nearby">Coffee Shops Nearby</string>
+    <string name="error_connection">Please, check your internet connection.</string>
+    <string name="error_invalid_credentials">Invalid email or password.</string>
+    <string name="error_request">Request error.</string>
+    <string name="error_account_is_taken">There is already an account with this email.</string>
+    <string name="error_empty_email">Email cannot be empty.</string>
+    <string name="error_unknown">Unknown error.</string>
+    <string name="distance_to_me_meters">%1$d m from you</string>
+    <string name="label_map">Map</string>
+    <string name="error_loading_coffee_shops">Failed to load coffee shops.</string>
+    <string name="snackbar_retry">Retry</string>
 </resources>

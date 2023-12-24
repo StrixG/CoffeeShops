@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.CoffeeShops" parent="Theme.Material3.DayNight.NoActionBar" />
+    <style name="Theme.CoffeeShops" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/brown</item>
+        <item name="colorContainer">@color/beige</item>
+        <item name="colorOnContainer">@color/brown</item>
+        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+    </style>
 </resources>

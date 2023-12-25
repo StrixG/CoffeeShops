@@ -37,7 +37,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                 findNavController().navigate(action)
             }
 
-            passwordEditText.setOnEditorActionListener { _, actionId, _ ->
+            passwordConfirmEditText.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     signUp()
                     true

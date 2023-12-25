@@ -2,7 +2,6 @@ package com.obrekht.coffeeshops.coffeeshops.ui.nearby
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.obrekht.coffeeshops.auth.data.repository.AuthRepository
 import com.obrekht.coffeeshops.coffeeshops.data.repository.CoffeeShopsRepository
 import com.obrekht.coffeeshops.coffeeshops.ui.model.CoffeeShop
 import com.obrekht.coffeeshops.geolocation.data.repository.GeoLocationRepository
@@ -18,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NearbyCoffeeShopsViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
     private val geoLocationRepository: GeoLocationRepository,
     private val coffeeShopsRepository: CoffeeShopsRepository,
 ) : ViewModel() {

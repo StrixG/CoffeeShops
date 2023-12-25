@@ -33,4 +33,5 @@
     <string name="request">Request</string>
     <string name="unit_short_meters">m</string>
     <string name="unit_short_kilometers">km</string>
+    <string name="order_complete">Order waiting time 15 minutes! Thank you for choosing us!</string>
 </resources>

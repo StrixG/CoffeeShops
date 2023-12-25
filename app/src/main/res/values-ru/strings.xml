@@ -32,4 +32,5 @@
     <string name="unit_short_meters">м</string>
     <string name="unit_short_kilometers">км</string>
     <string name="error_location_permission_rationale">Пожалуйста, разрешите доступ к вашему местоположению.</string>
+    <string name="order_complete">Время ожидания заказа 15 минут! Спасибо, что выбрали нас!</string>
 </resources>

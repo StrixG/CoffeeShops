@@ -58,6 +58,12 @@ class CartViewModel @Inject constructor(
         }
     }
 
+    fun clearCart() {
+        viewModelScope.launch {
+            cartRepository.deleteAll()
+        }
+    }
+
     private fun setLoadingState(isLoading: Boolean) {
         _uiState.update {
             it.copy(isLoading = isLoading)

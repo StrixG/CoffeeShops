@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import com.obrekht.coffeeshops.R
 import com.obrekht.coffeeshops.app.utils.setOnApplyWindowInsetsListener
 import com.obrekht.coffeeshops.cart.domain.model.CartMenuItem
@@ -53,7 +54,15 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         }
 
         adapter = CartItemAdapter(interactionListener)
-        binding.itemList.adapter = adapter
+        with(binding) {
+            itemList.adapter = adapter
+            buttonPay.setOnClickListener {
+                Snackbar.make(view, R.string.order_complete, Snackbar.LENGTH_SHORT).apply {
+                    anchorView = buttonPay
+                }.show()
+                viewModel.clearCart()
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

@@ -39,7 +39,7 @@ class NearbyCoffeeShopsFragment : Fragment(R.layout.fragment_nearby_coffee_shops
         if (permissions.any { it.value }) {
             viewModel.refreshCurrentLocation()
         } else {
-            showErrorSnackbar(R.string.error_location_permission_denied)
+            showSnackbar(R.string.error_location_permission_denied)
         }
     }
 
@@ -64,7 +64,7 @@ class NearbyCoffeeShopsFragment : Fragment(R.layout.fragment_nearby_coffee_shops
             requireActivity().shouldShowRequestPermissionRationale(
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) -> {
-                showErrorSnackbar(
+                showSnackbar(
                     R.string.error_location_permission_rationale,
                     SnackbarAction(getString(R.string.request)) {
                         requestLocationPermission()
@@ -119,11 +119,11 @@ class NearbyCoffeeShopsFragment : Fragment(R.layout.fragment_nearby_coffee_shops
         }
 
         when (uiEvent) {
-            UiEvent.ErrorConnection -> showErrorSnackbar(
+            UiEvent.ErrorConnection -> showSnackbar(
                 R.string.error_connection, refreshAction
             )
 
-            UiEvent.ErrorLoading -> showErrorSnackbar(
+            UiEvent.ErrorLoading -> showSnackbar(
                 R.string.error_loading_coffee_shops, refreshAction
             )
         }
@@ -145,7 +145,7 @@ class NearbyCoffeeShopsFragment : Fragment(R.layout.fragment_nearby_coffee_shops
         )
     }
 
-    private fun showErrorSnackbar(
+    private fun showSnackbar(
         @StringRes messageResId: Int,
         snackbarAction: SnackbarAction? = null
     ) {

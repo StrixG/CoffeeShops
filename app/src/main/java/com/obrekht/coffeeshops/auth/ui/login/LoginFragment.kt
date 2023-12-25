@@ -76,27 +76,27 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun handleUiEvent(uiEvent: UiEvent) {
         when (uiEvent) {
             UiEvent.ErrorUnknown -> {
-                showErrorSnackbar(R.string.error_unknown)
+                showSnackbar(R.string.error_unknown)
             }
 
             UiEvent.ErrorEmptyEmail -> {
-                showErrorSnackbar(R.string.error_empty_email)
+                showSnackbar(R.string.error_empty_email)
             }
 
             UiEvent.ErrorEmptyPassword -> {
-                showErrorSnackbar(R.string.error_empty_password)
+                showSnackbar(R.string.error_empty_password)
             }
 
             UiEvent.ErrorConnection -> {
-                showErrorSnackbar(R.string.error_connection)
+                showSnackbar(R.string.error_connection)
             }
 
             UiEvent.ErrorRequest -> {
-                showErrorSnackbar(R.string.error_request)
+                showSnackbar(R.string.error_request)
             }
 
             UiEvent.ErrorInvalidCredentials -> {
-                showErrorSnackbar(R.string.error_invalid_credentials)
+                showSnackbar(R.string.error_invalid_credentials)
             }
 
             UiEvent.NavigateToNearbyCoffeeShops -> {
@@ -126,7 +126,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun showErrorSnackbar(@StringRes resId: Int) {
+    private fun showSnackbar(@StringRes resId: Int) {
         Snackbar.make(binding.root, resId, Snackbar.LENGTH_SHORT).show()
     }
 }

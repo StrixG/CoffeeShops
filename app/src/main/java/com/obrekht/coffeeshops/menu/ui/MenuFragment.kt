@@ -96,11 +96,11 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         }
 
         when (uiEvent) {
-            UiEvent.ErrorConnection -> showErrorSnackbar(
+            UiEvent.ErrorConnection -> showSnackbar(
                 R.string.error_connection, action
             )
 
-            UiEvent.ErrorLoading -> showErrorSnackbar(
+            UiEvent.ErrorLoading -> showSnackbar(
                 R.string.error_loading_menu, action
             )
         }
@@ -112,7 +112,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         adapter = null
     }
 
-    private fun showErrorSnackbar(
+    private fun showSnackbar(
         @StringRes messageResId: Int,
         snackbarAction: SnackbarAction? = null
     ) {

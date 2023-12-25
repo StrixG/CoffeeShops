@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.obrekht.coffeeshops.R
+import com.obrekht.coffeeshops.app.utils.formatDistance
 import com.obrekht.coffeeshops.coffeeshops.ui.model.CoffeeShop
 import com.obrekht.coffeeshops.databinding.ItemCoffeeShopBinding
 
@@ -48,7 +49,8 @@ class CoffeeShopViewHolder(
         with(binding) {
             name.text = coffeeShop.name
             distance.text = coffeeShop.distance?.let {
-                itemView.context.getString(R.string.distance_to_me_meters, it)
+                val distanceString = it.formatDistance(itemView.context)
+                itemView.context.getString(R.string.distance_to_me, distanceString)
             } ?: itemView.context.getString(R.string.unknown_distance)
         }
     }

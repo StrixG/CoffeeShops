@@ -1,8 +1,10 @@
 package com.obrekht.coffeeshops.coffeeshops.ui.nearby
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -14,6 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.obrekht.coffeeshops.R
+import com.obrekht.coffeeshops.app.utils.hasLocationPermission
 import com.obrekht.coffeeshops.app.utils.setOnApplyWindowInsetsListener
 import com.obrekht.coffeeshops.core.ui.model.SnackbarAction
 import com.obrekht.coffeeshops.databinding.FragmentNearbyCoffeeShopsBinding
@@ -30,6 +33,16 @@ class NearbyCoffeeShopsFragment : Fragment(R.layout.fragment_nearby_coffee_shops
 
     private var adapter: NearbyCoffeeShopsAdapter? = null
 
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions.any { it.value }) {
+            viewModel.refreshCurrentLocation()
+        } else {
+            showErrorSnackbar(R.string.error_location_permission_denied)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentNearbyCoffeeShopsBinding.bind(view)
 
@@ -41,6 +54,25 @@ class NearbyCoffeeShopsFragment : Fragment(R.layout.fragment_nearby_coffee_shops
             }
 
             windowInsets
+        }
+
+        when {
+            requireContext().hasLocationPermission() -> {
+                viewModel.refreshCurrentLocation()
+            }
+
+            requireActivity().shouldShowRequestPermissionRationale(
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) -> {
+                showErrorSnackbar(
+                    R.string.error_location_permission_rationale,
+                    SnackbarAction(getString(R.string.request)) {
+                        requestLocationPermission()
+                    }
+                )
+            }
+
+            else -> requestLocationPermission()
         }
 
         adapter = NearbyCoffeeShopsAdapter { coffeeShop, _ ->
@@ -102,6 +134,15 @@ class NearbyCoffeeShopsFragment : Fragment(R.layout.fragment_nearby_coffee_shops
             coffeeShopId
         )
         findNavController().navigate(action)
+    }
+
+    private fun requestLocationPermission() {
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
     }
 
     private fun showErrorSnackbar(

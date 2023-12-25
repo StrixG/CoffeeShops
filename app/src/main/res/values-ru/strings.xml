@@ -19,7 +19,7 @@
     <string name="error_unknown">Неизвестная ошибка.</string>
     <string name="error_loading_coffee_shops">Не удалось загрузить кофейни.</string>
     <string name="error_loading_menu">Не удалось загрузить меню.</string>
-    <string name="distance_to_me_meters">%1$d м от вас</string>
+    <string name="distance_to_me">%1$s от вас</string>
     <string name="snackbar_retry">Повторить</string>
     <string name="proceed_to_payment">Перейти к оплате</string>
     <string name="label_menu">Меню</string>
@@ -27,4 +27,9 @@
     <string name="label_cart">Ваш заказ</string>
     <string name="empty_cart">Ваша корзина пуста.</string>
     <string name="unknown_distance">Расстояние неизвестно</string>
+    <string name="error_location_permission_denied">Location permission denied.</string>
+    <string name="request">Запросить</string>
+    <string name="unit_short_meters">м</string>
+    <string name="unit_short_kilometers">км</string>
+    <string name="error_location_permission_rationale">Пожалуйста, разрешите доступ к вашему местоположению.</string>
 </resources>

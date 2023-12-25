@@ -76,6 +76,7 @@ dependencies {
 
     implementation(libs.bundles.retrofit)
     implementation(libs.yandex.mapkit)
+    implementation(libs.play.services.location)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.obrekht.coffeeshops.auth.data.repository.AuthRepository
 import com.obrekht.coffeeshops.coffeeshops.data.repository.CoffeeShopsRepository
 import com.obrekht.coffeeshops.coffeeshops.ui.model.CoffeeShop
+import com.obrekht.coffeeshops.geolocation.data.repository.GeoLocationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NearbyCoffeeShopsViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val coffeeShopsRepository: CoffeeShopsRepository
+    private val geoLocationRepository: GeoLocationRepository,
+    private val coffeeShopsRepository: CoffeeShopsRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UiState())
@@ -54,6 +56,10 @@ class NearbyCoffeeShopsViewModel @Inject constructor(
                 setLoadingState(false)
             }
         }
+    }
+
+    fun refreshCurrentLocation() {
+        geoLocationRepository.refreshCurrentLocation()
     }
 
     private fun setLoadingState(isLoading: Boolean) {

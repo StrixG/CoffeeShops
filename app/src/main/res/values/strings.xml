@@ -19,7 +19,7 @@
     <string name="error_unknown">Unknown error.</string>
     <string name="error_loading_coffee_shops">Failed to load coffee shops.</string>
     <string name="error_loading_menu">Failed to load menu.</string>
-    <string name="distance_to_me_meters">%1$d m from you</string>
+    <string name="distance_to_me">%1$s from you</string>
     <string name="snackbar_retry">Retry</string>
     <string name="proceed_to_payment">Proceed to payment</string>
     <string name="price" translatable="false">%1$d ₽</string>
@@ -28,4 +28,9 @@
     <string name="label_cart">Your order</string>
     <string name="empty_cart">Your cart is empty.</string>
     <string name="unknown_distance">Distance is unknown</string>
+    <string name="error_location_permission_denied">Location permission denied.</string>
+    <string name="error_location_permission_rationale">Please, allow access to your location.</string>
+    <string name="request">Request</string>
+    <string name="unit_short_meters">m</string>
+    <string name="unit_short_kilometers">km</string>
 </resources>

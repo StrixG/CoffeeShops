@@ -18,7 +18,10 @@ import com.obrekht.coffeeshops.databinding.FragmentCoffeeShopsMapBinding
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.logo.Alignment
+import com.yandex.mapkit.logo.HorizontalAlignment
 import com.yandex.mapkit.logo.Padding
+import com.yandex.mapkit.logo.VerticalAlignment
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.ClusterListener
 import com.yandex.mapkit.map.ClusterizedPlacemarkCollection
@@ -69,7 +72,7 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
                         CameraPosition(
                             it.geometry,
                             DEFAULT_ZOOM,
-                            DEFAULT_ROTATION,
+                            DEFAULT_AZIMUTH,
                             DEFAULT_TILT
                         ),
                         DEFAULT_CAMERA_ANIMATION,
@@ -94,7 +97,10 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
         binding.mapView.setOnApplyWindowInsetsListener { _, windowInsets, _, _ ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-            map?.logo?.setPadding(Padding(0, insets.bottom))
+            map?.logo?.apply {
+                setPadding(Padding(0, insets.bottom))
+                setAlignment(Alignment(HorizontalAlignment.LEFT, VerticalAlignment.BOTTOM))
+            }
 
             WindowInsetsCompat.CONSUMED
         }
@@ -112,28 +118,11 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
                     getFloat(KEY_CAMERA_POSITION_TILT)
                 )
             )
-        }
+        } ?: viewModel.restoreCameraPosition()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { uiState ->
-                    uiState.moveCameraTo?.let {
-                        map?.move(
-                            CameraPosition(
-                                Point(it.latitude, it.longitude),
-                                DEFAULT_ZOOM,
-                                DEFAULT_ROTATION,
-                                DEFAULT_TILT
-                            )
-                        )
-                        viewModel.onCameraMoved()
-                    }
-
-                    map?.let {
-                        placemarkCollection?.clear()
-                        uiState.coffeeShops.forEach(::addCoffeeShopOnMap)
-                    }
-                }
+                viewModel.uiState.collect(::handleUiState)
             }
         }
     }
@@ -141,6 +130,13 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
+        map?.cameraPosition?.let {
+            viewModel.saveCameraPosition(CameraMovePosition(
+                it.target.latitude, it.target.longitude,
+                it.zoom, it.azimuth, it.tilt
+            ))
+        }
 
         map = null
         placemarkCollection = null
@@ -173,6 +169,25 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
         }
     }
 
+    private fun handleUiState(uiState: UiState) {
+        uiState.moveCameraTo?.let {
+            map?.move(
+                CameraPosition(
+                    Point(it.latitude, it.longitude),
+                    it.zoom ?: DEFAULT_ZOOM,
+                    it.azimuth ?: DEFAULT_AZIMUTH,
+                    it.tilt ?: DEFAULT_TILT
+                )
+            )
+            viewModel.onCameraMoved()
+        }
+
+        map?.let {
+            placemarkCollection?.clear()
+            uiState.coffeeShops.forEach(::addCoffeeShopOnMap)
+        }
+    }
+
     private fun addCoffeeShopOnMap(coffeeShop: CoffeeShop) {
         val placemarkCollection = placemarkCollection ?: return
         val textColor = resources.getColor(R.color.brown, context?.theme)
@@ -195,7 +210,7 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
 
     companion object {
         private const val DEFAULT_ZOOM = 15f
-        private const val DEFAULT_ROTATION = 0f
+        private const val DEFAULT_AZIMUTH = 0f
         private const val DEFAULT_TILT = 0f
 
         private val DEFAULT_CAMERA_ANIMATION = Animation(Animation.Type.SMOOTH, 0.4f)

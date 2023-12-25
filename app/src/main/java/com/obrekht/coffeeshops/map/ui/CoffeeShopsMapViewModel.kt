@@ -3,7 +3,6 @@ package com.obrekht.coffeeshops.map.ui.map
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.obrekht.coffeeshops.coffeeshops.data.model.CoffeeShopPoint
 import com.obrekht.coffeeshops.coffeeshops.data.repository.CoffeeShopsRepository
 import com.obrekht.coffeeshops.coffeeshops.ui.model.CoffeeShop
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,12 +23,16 @@ class CoffeeShopsMapViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
 
+    private var savedCameraPosition: CameraMovePosition? = null
+
     init {
         if (args.coffeeShopId != 0L) {
             viewModelScope.launch {
                 coffeeShopsRepository.getCoffeeShopById(args.coffeeShopId)?.let { coffeeShop ->
                     _uiState.update {
-                        it.copy(moveCameraTo = coffeeShop.point)
+                        it.copy(moveCameraTo = CameraMovePosition(
+                            coffeeShop.point.latitude, coffeeShop.point.longitude
+                        ))
                     }
                 }
             }
@@ -49,9 +52,28 @@ class CoffeeShopsMapViewModel @Inject constructor(
             it.copy(moveCameraTo = null)
         }
     }
+
+    fun restoreCameraPosition() {
+        _uiState.update {
+            it.copy(moveCameraTo = savedCameraPosition)
+        }
+        savedCameraPosition = null
+    }
+
+    fun saveCameraPosition(cameraPosition: CameraMovePosition) {
+        savedCameraPosition = cameraPosition
+    }
 }
 
 data class UiState(
     val coffeeShops: List<CoffeeShop> = emptyList(),
-    val moveCameraTo: CoffeeShopPoint? = null
+    val moveCameraTo: CameraMovePosition? = null
+)
+
+data class CameraMovePosition(
+    val latitude: Double,
+    val longitude: Double,
+    val zoom: Float? = null,
+    val azimuth: Float? = null,
+    val tilt: Float? = null
 )

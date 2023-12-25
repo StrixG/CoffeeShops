@@ -19,8 +19,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val systemBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
-        enableEdgeToEdge(systemBarStyle, systemBarStyle)
+        val statusBarStyle = SystemBarStyle.light(
+            Color.TRANSPARENT, Color.TRANSPARENT
+        )
+        val navigationBarStyle = SystemBarStyle.light(
+            Color.TRANSPARENT, getColor(R.color.brown)
+        )
+        enableEdgeToEdge(statusBarStyle, navigationBarStyle)
         MapKitFactory.initialize(this)
         super.onCreate(savedInstanceState)
 

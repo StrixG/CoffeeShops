@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Coffee Shops</string>
+    <string name="auth_hint_password">Пароль</string>
+    <string name="auth_hint_password_confirm">Подтвердите пароль</string>
+    <string name="label_sign_up">Регистрация</string>
+    <string name="label_login">Вход</string>
+    <string name="label_coffee_shops_nearby">Ближайшие кофейни</string>
+    <string name="label_map">Карта</string>
+    <string name="on_map">На карте</string>
+    <string name="error_passwords_do_not_match">Пароли не сопадают.</string>
+    <string name="error_invalid_email">Пожалуйста, введите верный e-mail.</string>
+    <string name="error_empty_password">Пароль не может быть пустым.</string>
+    <string name="error_connection">Пожалуйста, проверьте ваше соединение с интернетом.</string>
+    <string name="error_invalid_credentials">Неверный email или пароль.</string>
+    <string name="error_request">Ошибка запроса.</string>
+    <string name="error_account_is_taken">Аккаунт с этой почтой уже существует.</string>
+    <string name="error_empty_email">Email не может быть пустым.</string>
+    <string name="error_unknown">Неизвестная ошибка.</string>
+    <string name="error_loading_coffee_shops">Не удалось загрузить кофейни.</string>
+    <string name="error_loading_menu">Не удалось загрузить меню.</string>
+    <string name="distance_to_me_meters">%1$d м от вас</string>
+    <string name="snackbar_retry">Повторить</string>
+    <string name="proceed_to_payment">Перейти к оплате</string>
+    <string name="label_menu">Меню</string>
+    <string name="pay">Оплатить (%1$d ₽)</string>
+    <string name="label_cart">Ваш заказ</string>
+    <string name="empty_cart">Ваша корзина пуста.</string>
+</resources>

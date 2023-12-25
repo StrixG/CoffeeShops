@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.recyclerview)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.bundles.navigation)
+    implementation(libs.coil)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

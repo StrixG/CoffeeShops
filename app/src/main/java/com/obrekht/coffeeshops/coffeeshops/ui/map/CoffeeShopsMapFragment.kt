@@ -4,16 +4,18 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.obrekht.coffeeshops.R
+import com.obrekht.coffeeshops.app.utils.setOnApplyWindowInsetsListener
 import com.obrekht.coffeeshops.coffeeshops.ui.model.CoffeeShop
 import com.obrekht.coffeeshops.databinding.FragmentCoffeeShopsMapBinding
+import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.logo.Padding
@@ -43,7 +45,8 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
     private val placemarkTapListener = MapObjectTapListener { mapObject, _ ->
         if (mapObject is PlacemarkMapObject && mapObject.userData is Long) {
             val coffeeShopId = mapObject.userData as Long
-            // TODO: Navigate to menu fragment
+            val action = CoffeeShopsMapFragmentDirections.actionToMenuFragment(coffeeShopId)
+            findNavController().navigate(action)
             true
         } else {
             false
@@ -54,13 +57,26 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
         placemarkIconImageProvider?.let {
             cluster.appearance.apply {
                 setIcon(
-                    ImageProvider.fromResource(
-                        requireContext(), R.drawable.ic_coffee_shops_cluster
-                    )
+                    ImageProvider.fromResource(requireContext(), R.drawable.ic_coffee_shops_cluster)
                 )
                 setText("${cluster.placemarks.size}", TextStyle().apply {
                     color = resources.getColor(R.color.dark_brown, context?.theme)
                 })
+            }
+            cluster.addClusterTapListener { cluster ->
+                return@addClusterTapListener cluster.placemarks.firstOrNull()?.let {
+                    map?.move(
+                        CameraPosition(
+                            it.geometry,
+                            DEFAULT_ZOOM,
+                            DEFAULT_ROTATION,
+                            DEFAULT_TILT
+                        ),
+                        DEFAULT_CAMERA_ANIMATION,
+                        null
+                    )
+                    true
+                } ?: false
             }
         }
     }
@@ -75,7 +91,7 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
             requireContext(), R.drawable.ic_coffee_shop_placemark
         )
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.mapView) { _, windowInsets ->
+        binding.mapView.setOnApplyWindowInsetsListener { _, windowInsets, _, _ ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
             map?.logo?.setPadding(Padding(0, insets.bottom))
@@ -181,6 +197,8 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
         private const val DEFAULT_ZOOM = 15f
         private const val DEFAULT_ROTATION = 0f
         private const val DEFAULT_TILT = 0f
+
+        private val DEFAULT_CAMERA_ANIMATION = Animation(Animation.Type.SMOOTH, 0.4f)
 
         private const val KEY_CAMERA_POSITION_LATITUDE = "camera_position_latitude"
         private const val KEY_CAMERA_POSITION_LONGITUDE = "camera_position_longitude"

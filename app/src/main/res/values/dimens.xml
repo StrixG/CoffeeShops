@@ -2,5 +2,6 @@
 <resources>
     <dimen name="common_spacing">16dp</dimen>
     <dimen name="small_spacing">8dp</dimen>
-    <dimen name="coffee_shop_list_bottom_margin">96dp</dimen>
+    <dimen name="list_bottom_margin">96dp</dimen>
+    <dimen name="menu_position_image_height">128dp</dimen>
 </resources>

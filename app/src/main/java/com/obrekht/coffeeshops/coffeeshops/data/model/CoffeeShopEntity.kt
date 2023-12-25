@@ -13,8 +13,8 @@ data class CoffeeShopEntity(
     val point: CoffeeShopPoint
 )
 
-fun CoffeeShopEntity.toApiModel() = CoffeeShopApiModel(id, name, point)
+fun CoffeeShopEntity.toModel() = CoffeeShopApiModel(id, name, point)
 fun CoffeeShopApiModel.toEntity() = CoffeeShopEntity(id, name, point)
 
-fun List<CoffeeShopEntity>.toApiModel() = map(CoffeeShopEntity::toApiModel)
+fun List<CoffeeShopEntity>.toModel() = map(CoffeeShopEntity::toModel)
 fun List<CoffeeShopApiModel>.toEntity() = map(CoffeeShopApiModel::toEntity)

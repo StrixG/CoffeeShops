@@ -5,12 +5,21 @@
     android:id="@+id/nav_main"
     app:startDestination="@id/sign_up_fragment">
 
-
     <fragment
         android:id="@+id/nearby_coffee_shops_fragment"
         android:name="com.obrekht.coffeeshops.coffeeshops.ui.nearby.NearbyCoffeeShopsFragment"
         android:label="@string/label_coffee_shops_nearby"
-        tools:layout="@layout/fragment_nearby_coffee_shops" />
+        tools:layout="@layout/fragment_nearby_coffee_shops">
+
+        <action
+            android:id="@+id/action_to_coffee_shops_map_fragment"
+            app:destination="@id/coffee_shops_map_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
     <fragment
         android:id="@+id/coffee_shops_map_fragment"
@@ -21,7 +30,38 @@
             android:name="coffeeShopId"
             android:defaultValue="0L"
             app:argType="long" />
+        <action
+            android:id="@+id/action_to_menu_fragment"
+            app:destination="@id/menu_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
+    <fragment
+        android:id="@+id/menu_fragment"
+        android:name="com.obrekht.coffeeshops.menu.ui.MenuFragment"
+        android:label="@string/label_menu"
+        tools:layout="@layout/fragment_menu">
+        <argument
+            android:name="coffeeShopId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_to_cart_fragment"
+            app:destination="@id/cart_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cart_fragment"
+        android:name="com.obrekht.coffeeshops.cart.ui.CartFragment"
+        android:label="@string/label_cart"
+        tools:layout="@layout/fragment_cart" />
 
     <fragment
         android:id="@+id/sign_up_fragment"
@@ -45,15 +85,6 @@
         app:popExitAnim="@anim/nav_default_pop_exit_anim"
         app:popUpTo="@id/nav_main"
         app:popUpToInclusive="true" />
-
-    <action
-        android:id="@+id/action_global_coffee_shops_map_fragment"
-        app:destination="@id/coffee_shops_map_fragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:launchSingleTop="true"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_sign_up_fragment"

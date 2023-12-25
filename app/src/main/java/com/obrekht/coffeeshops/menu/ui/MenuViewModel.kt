@@ -22,7 +22,7 @@ import javax.inject.Inject
 class MenuViewModel @Inject constructor(
     private val menuRepository: MenuRepository,
     private val cartRepository: CartRepository,
-    private val getCartMenuItemsStreamUseCase: GetCartMenuItemsStreamUseCase,
+    private val getCartMenuItemsStream: GetCartMenuItemsStreamUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -40,7 +40,7 @@ class MenuViewModel @Inject constructor(
         viewModelScope.launch {
             cartRepository.deleteAll()
 
-            getCartMenuItemsStreamUseCase(args.coffeeShopId).collectLatest { cartMenuItems ->
+            getCartMenuItemsStream(args.coffeeShopId).collectLatest { cartMenuItems ->
                 val canProceed = cartMenuItems.any { it.count > 0 }
                 _uiState.update {
                     it.copy(

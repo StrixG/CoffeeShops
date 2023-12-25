@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val cartRepository: CartRepository,
-    private val getCartMenuItemsStreamUseCase: GetCartMenuItemsStreamUseCase
+    private val getCartMenuItemsStream: GetCartMenuItemsStreamUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(UiState())
@@ -26,7 +26,7 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             setLoadingState(true)
 
-            getCartMenuItemsStreamUseCase().collectLatest { cartMenuItems ->
+            getCartMenuItemsStream().collectLatest { cartMenuItems ->
                 val canProceed = cartMenuItems.any { it.count > 0 }
                 val totalPrice = cartMenuItems.fold(0) { acc, cartMenuItem ->
                     acc + cartMenuItem.price * cartMenuItem.count

@@ -47,9 +47,9 @@ class CoffeeShopViewHolder(
 
         with(binding) {
             name.text = coffeeShop.name
-            distance.text = itemView.context.getString(
-                R.string.distance_to_me_meters, coffeeShop.distance
-            )
+            distance.text = coffeeShop.distance?.let {
+                itemView.context.getString(R.string.distance_to_me_meters, it)
+            } ?: itemView.context.getString(R.string.unknown_distance)
         }
     }
 }

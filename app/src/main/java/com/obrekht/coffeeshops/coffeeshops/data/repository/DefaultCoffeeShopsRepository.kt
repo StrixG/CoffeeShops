@@ -28,8 +28,7 @@ class DefaultCoffeeShopsRepository @Inject constructor(
     override fun getCoffeeShopsStream(): Flow<List<CoffeeShop>> {
         return coffeeShopsDao.observeAll().map { coffeeShopList ->
             coffeeShopList.map {
-                // TODO: Calculate distance
-                CoffeeShop(it.id, it.name, it.point, it.point.latitude.toLong())
+                CoffeeShop(it.id, it.name, it.point, null)
             }
         }
     }

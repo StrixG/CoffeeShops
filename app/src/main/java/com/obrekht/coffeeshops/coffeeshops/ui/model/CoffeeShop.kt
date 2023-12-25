@@ -6,5 +6,5 @@ data class CoffeeShop(
     val id: Long,
     val name: String,
     val point: CoffeeShopPoint,
-    val distance: Long
+    val distance: Long?
 )

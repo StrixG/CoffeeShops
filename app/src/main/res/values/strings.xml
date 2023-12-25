@@ -27,4 +27,5 @@
     <string name="pay">Pay (%1$d ₽)</string>
     <string name="label_cart">Your order</string>
     <string name="empty_cart">Your cart is empty.</string>
+    <string name="unknown_distance">Unknown distance</string>
 </resources>

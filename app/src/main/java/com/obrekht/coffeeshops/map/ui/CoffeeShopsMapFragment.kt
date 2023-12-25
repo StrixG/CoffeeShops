@@ -1,4 +1,4 @@
-package com.obrekht.coffeeshops.coffeeshops.ui.map
+package com.obrekht.coffeeshops.map.ui.map
 
 import android.graphics.Color
 import android.os.Bundle

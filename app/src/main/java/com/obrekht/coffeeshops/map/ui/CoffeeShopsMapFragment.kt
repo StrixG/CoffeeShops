@@ -1,4 +1,4 @@
-package com.obrekht.coffeeshops.map.ui.map
+package com.obrekht.coffeeshops.map.ui
 
 import android.graphics.Color
 import android.os.Bundle
@@ -132,10 +132,12 @@ class CoffeeShopsMapFragment : Fragment(R.layout.fragment_coffee_shops_map) {
         _binding = null
 
         map?.cameraPosition?.let {
-            viewModel.saveCameraPosition(CameraMovePosition(
+            viewModel.saveCameraPosition(
+                CameraMovePosition(
                 it.target.latitude, it.target.longitude,
                 it.zoom, it.azimuth, it.tilt
-            ))
+            )
+            )
         }
 
         map = null

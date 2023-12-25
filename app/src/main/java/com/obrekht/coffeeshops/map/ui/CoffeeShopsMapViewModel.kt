@@ -1,4 +1,4 @@
-package com.obrekht.coffeeshops.map.ui.map
+package com.obrekht.coffeeshops.map.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -32,7 +32,8 @@ class CoffeeShopsMapViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(moveCameraTo = CameraMovePosition(
                             coffeeShop.point.latitude, coffeeShop.point.longitude
-                        ))
+                        )
+                        )
                     }
                 }
             }

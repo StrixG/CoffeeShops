@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/coffee_shops_map_fragment"
-        android:name="com.obrekht.coffeeshops.map.ui.map.CoffeeShopsMapFragment"
+        android:name="com.obrekht.coffeeshops.map.ui.CoffeeShopsMapFragment"
         android:label="@string/label_map"
         tools:layout="@layout/fragment_coffee_shops_map">
         <argument

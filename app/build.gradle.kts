@@ -25,6 +25,9 @@ android {
         buildConfigField("String", "BASE_URL", "\"http://147.78.66.203:3210/\"")
         buildConfigField("String", "MAPKIT_API_KEY", "\"b0220310-8a24-43df-a0ff-5e861f8ca4fd\"")
     }
+    androidResources {
+        generateLocaleConfig = true
+    }
     buildFeatures {
         buildConfig = true
         viewBinding = true

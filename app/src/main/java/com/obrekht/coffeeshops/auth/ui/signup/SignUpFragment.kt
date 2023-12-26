@@ -16,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.obrekht.coffeeshops.NavMainDirections
 import com.obrekht.coffeeshops.R
+import com.obrekht.coffeeshops.app.utils.InsetsAnimationTranslationModifier
+import com.obrekht.coffeeshops.app.utils.setKeyboardInsetsAnimationCallback
 import com.obrekht.coffeeshops.app.utils.setOnApplyWindowInsetsListener
 import com.obrekht.coffeeshops.databinding.FragmentSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +44,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
             windowInsets
         }
+
+        view.setKeyboardInsetsAnimationCallback(InsetsAnimationTranslationModifier.Centered)
 
         with(binding) {
             buttonSignUp.setOnClickListener {

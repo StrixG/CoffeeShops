@@ -2,8 +2,11 @@ package com.obrekht.coffeeshops.auth.ui.signup
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.StringRes
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.obrekht.coffeeshops.NavMainDirections
 import com.obrekht.coffeeshops.R
+import com.obrekht.coffeeshops.app.utils.setOnApplyWindowInsetsListener
 import com.obrekht.coffeeshops.databinding.FragmentSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,6 +31,17 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentSignUpBinding.bind(view)
+
+        view.setOnApplyWindowInsetsListener { _, windowInsets, _, _ ->
+            val insets = windowInsets.getInsets(
+                WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.systemBars()
+            )
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = insets.bottom
+            }
+
+            windowInsets
+        }
 
         with(binding) {
             buttonSignUp.setOnClickListener {

@@ -22,7 +22,8 @@
         <activity
             android:name=".core.ui.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.CoffeeShops">
+            android:theme="@style/Theme.CoffeeShops"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

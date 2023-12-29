@@ -14,11 +14,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.obrekht.coffeeshops.NavMainDirections
 import com.obrekht.coffeeshops.R
 import com.obrekht.coffeeshops.app.utils.InsetsAnimationTranslationModifier
 import com.obrekht.coffeeshops.app.utils.setKeyboardInsetsAnimationCallback
 import com.obrekht.coffeeshops.app.utils.setOnApplyWindowInsetsListener
+import com.obrekht.coffeeshops.auth.ui.navigateToSignUp
+import com.obrekht.coffeeshops.coffeeshops.ui.navigateToNearbyCoffeeShops
 import com.obrekht.coffeeshops.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -52,8 +53,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 logIn()
             }
             buttonSignUp.setOnClickListener {
-                val action = NavMainDirections.actionGlobalSignUpFragment()
-                findNavController().navigate(action)
+                findNavController().navigateToSignUp()
             }
 
             passwordEditText.setOnEditorActionListener { _, actionId, _ ->
@@ -119,11 +119,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
 
             UiEvent.NavigateToNearbyCoffeeShops -> {
-                val navController = findNavController()
-                navController.graph.setStartDestination(R.id.nearby_coffee_shops_fragment)
-
-                val action = NavMainDirections.actionGlobalNearbyCoffeeShopsFragment()
-                navController.navigate(action)
+                findNavController().navigateToNearbyCoffeeShops(true)
             }
         }
     }

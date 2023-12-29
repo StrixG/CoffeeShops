@@ -2,6 +2,7 @@ package com.obrekht.coffeeshops.coffeeshops.ui.nearby
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.obrekht.coffeeshops.auth.data.model.exception.InvalidTokenException
 import com.obrekht.coffeeshops.coffeeshops.data.repository.CoffeeShopsRepository
 import com.obrekht.coffeeshops.coffeeshops.ui.model.CoffeeShop
 import com.obrekht.coffeeshops.geolocation.data.repository.GeoLocationRepository
@@ -46,11 +47,12 @@ class NearbyCoffeeShopsViewModel @Inject constructor(
             try {
                 coffeeShopsRepository.refreshAll()
             } catch (exception: Exception) {
-                val errorEvent = when(exception) {
+                val event = when(exception) {
                     is ConnectException -> UiEvent.ErrorConnection
+                    is InvalidTokenException -> UiEvent.NavigateToAuth
                     else -> UiEvent.ErrorLoading
                 }
-                _uiEvent.send(errorEvent)
+                _uiEvent.send(event)
                 setLoadingState(false)
             }
         }
@@ -75,4 +77,6 @@ data class UiState(
 sealed interface UiEvent {
     data object ErrorConnection : UiEvent
     data object ErrorLoading : UiEvent
+
+    data object NavigateToAuth : UiEvent
 }

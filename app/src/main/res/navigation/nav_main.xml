@@ -67,7 +67,12 @@
         android:id="@+id/sign_up_fragment"
         android:name="com.obrekht.coffeeshops.auth.ui.signup.SignUpFragment"
         android:label="@string/label_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up">
+        <argument
+            android:name="shouldLogOut"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
 
     <fragment
         android:id="@+id/login_fragment"
@@ -94,7 +99,8 @@
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim"
-        app:popUpTo="@id/sign_up_fragment" />
+        app:popUpTo="@id/nav_main"
+        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/action_global_login_fragment"

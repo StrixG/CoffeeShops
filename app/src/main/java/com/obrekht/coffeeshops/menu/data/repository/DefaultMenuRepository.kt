@@ -1,5 +1,7 @@
 package com.obrekht.coffeeshops.menu.data.repository
 
+import com.obrekht.coffeeshops.auth.data.model.exception.InvalidTokenException
+import com.obrekht.coffeeshops.auth.data.utils.isAuthTokenValid
 import com.obrekht.coffeeshops.core.data.model.EmptyBodyException
 import com.obrekht.coffeeshops.menu.data.local.MenuDao
 import com.obrekht.coffeeshops.menu.data.model.MenuItem
@@ -19,7 +21,11 @@ class DefaultMenuRepository @Inject constructor(
     override suspend fun refreshById(coffeeShopId: Long) {
         val response = menuApiService.getById(coffeeShopId)
         if (!response.isSuccessful) {
-            throw HttpException(response)
+            if (!response.isAuthTokenValid) {
+                throw InvalidTokenException()
+            } else {
+                throw HttpException(response)
+            }
         }
 
         val body = response.body() ?: throw EmptyBodyException()

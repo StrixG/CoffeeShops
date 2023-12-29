@@ -1,5 +1,7 @@
 package com.obrekht.coffeeshops.coffeeshops.data.repository
 
+import com.obrekht.coffeeshops.auth.data.model.exception.InvalidTokenException
+import com.obrekht.coffeeshops.auth.data.utils.isAuthTokenValid
 import com.obrekht.coffeeshops.coffeeshops.data.local.CoffeeShopsDao
 import com.obrekht.coffeeshops.coffeeshops.data.model.toEntity
 import com.obrekht.coffeeshops.coffeeshops.data.remote.CoffeeShopsApiService
@@ -22,7 +24,11 @@ class DefaultCoffeeShopsRepository @Inject constructor(
 
         val response = coffeeShopsApiService.getAll()
         if (!response.isSuccessful) {
-            throw HttpException(response)
+            if (!response.isAuthTokenValid) {
+                throw InvalidTokenException()
+            } else {
+                throw HttpException(response)
+            }
         }
 
         val body = response.body() ?: throw EmptyBodyException()

@@ -19,7 +19,7 @@ class AuthManager @Inject constructor() {
         }
     }
 
-    fun logout() {
+    fun logOut() {
         _state.value = AuthState.Unauthorized
     }
 

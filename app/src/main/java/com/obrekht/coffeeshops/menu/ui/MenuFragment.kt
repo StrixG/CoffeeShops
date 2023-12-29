@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.obrekht.coffeeshops.R
 import com.obrekht.coffeeshops.app.utils.setOnApplyWindowInsetsListener
+import com.obrekht.coffeeshops.auth.ui.navigateToSignUp
 import com.obrekht.coffeeshops.cart.domain.model.CartMenuItem
 import com.obrekht.coffeeshops.core.ui.model.SnackbarAction
 import com.obrekht.coffeeshops.databinding.FragmentMenuBinding
@@ -103,6 +104,13 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
             UiEvent.ErrorLoading -> showSnackbar(
                 R.string.error_loading_menu, action
             )
+
+            UiEvent.NavigateToAuth -> {
+                findNavController().navigateToSignUp(
+                    shouldLogOut = true,
+                    asStartDestination = true
+                )
+            }
         }
     }
 

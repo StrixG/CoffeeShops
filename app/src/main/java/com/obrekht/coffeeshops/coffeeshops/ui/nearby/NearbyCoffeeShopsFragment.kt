@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.obrekht.coffeeshops.R
 import com.obrekht.coffeeshops.app.utils.hasLocationPermission
 import com.obrekht.coffeeshops.app.utils.setOnApplyWindowInsetsListener
+import com.obrekht.coffeeshops.auth.ui.navigateToSignUp
 import com.obrekht.coffeeshops.core.ui.model.SnackbarAction
 import com.obrekht.coffeeshops.databinding.FragmentNearbyCoffeeShopsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -126,6 +127,13 @@ class NearbyCoffeeShopsFragment : Fragment(R.layout.fragment_nearby_coffee_shops
             UiEvent.ErrorLoading -> showSnackbar(
                 R.string.error_loading_coffee_shops, refreshAction
             )
+
+            UiEvent.NavigateToAuth -> {
+                findNavController().navigateToSignUp(
+                    shouldLogOut = true,
+                    asStartDestination = true
+                )
+            }
         }
     }
 

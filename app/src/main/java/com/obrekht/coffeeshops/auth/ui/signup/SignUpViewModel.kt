@@ -1,6 +1,7 @@
 package com.obrekht.coffeeshops.auth.ui.signup
 
 import android.util.Patterns
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.obrekht.coffeeshops.auth.data.model.AuthState
@@ -21,8 +22,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val args = SignUpFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
@@ -32,6 +36,10 @@ class SignUpViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            if (args.shouldLogOut) {
+                authRepository.logOut()
+            }
+
             authRepository.state.first { it is AuthState.Authorized }
 
             _uiEvent.send(UiEvent.NavigateToNearbyCoffeeShops)

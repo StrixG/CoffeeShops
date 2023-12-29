@@ -19,6 +19,7 @@ import com.obrekht.coffeeshops.R
 import com.obrekht.coffeeshops.app.utils.InsetsAnimationTranslationModifier
 import com.obrekht.coffeeshops.app.utils.setKeyboardInsetsAnimationCallback
 import com.obrekht.coffeeshops.app.utils.setOnApplyWindowInsetsListener
+import com.obrekht.coffeeshops.coffeeshops.ui.navigateToNearbyCoffeeShops
 import com.obrekht.coffeeshops.databinding.FragmentSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -123,11 +124,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
             }
 
             UiEvent.NavigateToNearbyCoffeeShops -> {
-                val navController = findNavController()
-                navController.graph.setStartDestination(R.id.nearby_coffee_shops_fragment)
-
-                val action = NavMainDirections.actionGlobalNearbyCoffeeShopsFragment()
-                navController.navigate(action)
+                findNavController().navigateToNearbyCoffeeShops(true)
             }
         }
     }

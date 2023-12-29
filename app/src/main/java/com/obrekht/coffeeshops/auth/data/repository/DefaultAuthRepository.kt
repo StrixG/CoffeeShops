@@ -45,4 +45,6 @@ class DefaultAuthRepository @Inject constructor(
         val body = response.body() ?: throw EmptyBodyException()
         authManager.authorize(body.token)
     }
+
+    override suspend fun logOut() = authManager.logOut()
 }

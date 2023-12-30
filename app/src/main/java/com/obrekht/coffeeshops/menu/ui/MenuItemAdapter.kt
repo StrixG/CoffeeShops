@@ -22,8 +22,22 @@ class MenuItemAdapter(
     }
 
     override fun onBindViewHolder(holder: CartMenuItemViewHolder, position: Int) {
+        onBindViewHolder(holder, position, emptyList())
+    }
+
+    override fun onBindViewHolder(
+        holder: CartMenuItemViewHolder,
+        position: Int,
+        payloads: List<Any>
+    ) {
         val item = getItem(position)
-        holder.bind(item)
+
+        if (payloads.isEmpty()) {
+            holder.bind(item)
+        } else {
+            val payloadList = payloads.map { it as CartMenuItemPayload }
+            holder.bind(item, payloadList)
+        }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<CartMenuItem>() {
@@ -32,6 +46,16 @@ class MenuItemAdapter(
 
         override fun areContentsTheSame(oldItem: CartMenuItem, newItem: CartMenuItem): Boolean =
             oldItem == newItem
+
+        override fun getChangePayload(
+            oldItem: CartMenuItem,
+            newItem: CartMenuItem
+        ): CartMenuItemPayload? {
+            val payload = CartMenuItemPayload(
+                count = newItem.count.takeIf { it != oldItem.count }
+            )
+            return payload.takeIf { it != CartMenuItemPayload.EMPTY }
+        }
     }
 }
 
@@ -40,10 +64,31 @@ class CartMenuItemViewHolder(
     private val interactionListener: MenuItemInteractionListener? = null
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(cartMenuItem: CartMenuItem) {
-        itemView.setOnClickListener {
-            interactionListener?.onClick(cartMenuItem, bindingAdapterPosition)
+    private var item: CartMenuItem? = null
+
+    init {
+        with(binding) {
+            itemView.setOnClickListener {
+                item?.let {
+                    interactionListener?.onClick(it, bindingAdapterPosition)
+                }
+            }
+            buttonRemove.setOnClickListener {
+                item?.let {
+                    interactionListener?.onRemove(it, bindingAdapterPosition)
+                }
+            }
+            buttonAdd.setOnClickListener {
+                item?.let {
+                    interactionListener?.onAdd(it, bindingAdapterPosition)
+                }
+            }
         }
+    }
+
+    fun bind(cartMenuItem: CartMenuItem) {
+        item = cartMenuItem
+
         with(binding) {
             image.load(cartMenuItem.imageUrl) {
                 crossfade(true)
@@ -51,17 +96,28 @@ class CartMenuItemViewHolder(
 
             name.text = cartMenuItem.name
             price.text = itemView.context.getString(R.string.price, cartMenuItem.price)
-            count.text = cartMenuItem.count.toString()
-
-            buttonRemove.isEnabled = cartMenuItem.count > 0
-
-            buttonRemove.setOnClickListener {
-                interactionListener?.onRemove(cartMenuItem, bindingAdapterPosition)
-            }
-            buttonAdd.setOnClickListener {
-                interactionListener?.onAdd(cartMenuItem, bindingAdapterPosition)
-            }
+            updateCount(cartMenuItem.count)
         }
+    }
+
+    fun bind(cartMenuItem: CartMenuItem, payloads: List<CartMenuItemPayload>) {
+        bind(cartMenuItem)
+
+        payloads.forEach { payload ->
+            payload.count?.let(::updateCount)
+        }
+    }
+
+    private fun updateCount(count: Int) {
+        binding.count.text = count.toString()
+        binding.buttonRemove.isEnabled = count > 0
     }
 }
 
+data class CartMenuItemPayload(
+    val count: Int? = null
+) {
+    companion object {
+        val EMPTY = CartMenuItemPayload()
+    }
+}

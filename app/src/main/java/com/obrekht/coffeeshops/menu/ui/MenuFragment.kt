@@ -29,7 +29,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
 
     private val viewModel: MenuViewModel by viewModels()
 
-    private var adapter: CartMenuItemAdapter? = null
+    private var adapter: MenuItemAdapter? = null
 
     private val interactionListener = object : MenuItemInteractionListener {
         override fun onAdd(cartMenuItem: CartMenuItem, position: Int) {
@@ -54,7 +54,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
             windowInsets
         }
 
-        adapter = CartMenuItemAdapter(interactionListener)
+        adapter = MenuItemAdapter(interactionListener)
         with(binding) {
             val spacingSize = resources.getDimensionPixelOffset(R.dimen.small_spacing)
             menuList.addItemDecoration(SpacingItemDecoration(spacingSize))

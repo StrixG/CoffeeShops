@@ -10,7 +10,7 @@ import com.obrekht.coffeeshops.R
 import com.obrekht.coffeeshops.cart.domain.model.CartMenuItem
 import com.obrekht.coffeeshops.databinding.ItemMenuPositionBinding
 
-class CartMenuItemAdapter(
+class MenuItemAdapter(
     private val interactionListener: MenuItemInteractionListener? = null
 ) : ListAdapter<CartMenuItem, CartMenuItemViewHolder>(DiffCallback()) {
 

@@ -32,8 +32,12 @@ class NearbyCoffeeShopsViewModel @Inject constructor(
 
         viewModelScope.launch {
             coffeeShopsRepository.getCoffeeShopsStream().collect { coffeeShops ->
+                val sortedCoffeeShops = coffeeShops.sortedBy { it.distance }
                 _uiState.update {
-                    it.copy(isLoading = false, coffeeShops = coffeeShops)
+                    it.copy(
+                        isLoading = false,
+                        coffeeShops = sortedCoffeeShops
+                    )
                 }
             }
         }

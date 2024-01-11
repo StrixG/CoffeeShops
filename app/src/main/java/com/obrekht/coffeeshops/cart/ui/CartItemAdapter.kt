@@ -21,8 +21,16 @@ class CartItemAdapter(
     }
 
     override fun onBindViewHolder(holder: CartItemViewHolder, position: Int) {
+        onBindViewHolder(holder, position, emptyList())
+    }
+
+    override fun onBindViewHolder(
+        holder: CartItemViewHolder, position: Int, payloads: List<Any>
+    ) {
         val item = getItem(position)
-        holder.bind(item)
+
+        val payloadList = payloads.map { it as CartItemPayload }
+        holder.bind(item, payloadList)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<CartMenuItem>() {
@@ -31,6 +39,15 @@ class CartItemAdapter(
 
         override fun areContentsTheSame(oldItem: CartMenuItem, newItem: CartMenuItem): Boolean =
             oldItem == newItem
+
+        override fun getChangePayload(
+            oldItem: CartMenuItem,
+            newItem: CartMenuItem
+        ): CartItemPayload {
+            return CartItemPayload(
+                countChanged = newItem.count != oldItem.count
+            )
+        }
     }
 }
 
@@ -39,20 +56,38 @@ class CartItemViewHolder(
     private val interactionListener: CartItemInteractionListener?
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(cartMenuItem: CartMenuItem) {
+    private var item: CartMenuItem? = null
+
+    init {
+        with(binding) {
+            buttonRemove.setOnClickListener {
+                item?.let {
+                    interactionListener?.onRemove(it, bindingAdapterPosition)
+                }
+            }
+            buttonAdd.setOnClickListener {
+                item?.let {
+                    interactionListener?.onAdd(it, bindingAdapterPosition)
+                }
+            }
+        }
+    }
+
+    fun bind(cartMenuItem: CartMenuItem, payloads: List<CartItemPayload>) {
+        item = cartMenuItem
+
         with(binding) {
             name.text = cartMenuItem.name
             price.text = itemView.context.getString(R.string.price, cartMenuItem.price)
-            count.text = cartMenuItem.count.toString()
 
-            buttonRemove.isEnabled = cartMenuItem.count > 0
-
-            buttonRemove.setOnClickListener {
-                interactionListener?.onRemove(cartMenuItem, bindingAdapterPosition)
-            }
-            buttonAdd.setOnClickListener {
-                interactionListener?.onAdd(cartMenuItem, bindingAdapterPosition)
+            if (payloads.isEmpty() || payloads.any { it.countChanged }) {
+                count.text = cartMenuItem.count.toString()
+                buttonRemove.isEnabled = cartMenuItem.count > 0
             }
         }
     }
 }
+
+data class CartItemPayload(
+    val countChanged: Boolean = false
+)

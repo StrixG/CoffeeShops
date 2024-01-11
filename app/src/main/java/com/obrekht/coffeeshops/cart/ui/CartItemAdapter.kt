@@ -25,18 +25,12 @@ class CartItemAdapter(
     }
 
     override fun onBindViewHolder(
-        holder: CartItemViewHolder,
-        position: Int,
-        payloads: List<Any>
+        holder: CartItemViewHolder, position: Int, payloads: List<Any>
     ) {
         val item = getItem(position)
 
-        if (payloads.isEmpty()) {
-            holder.bind(item)
-        } else {
-            val payloadList = payloads.map { it as CartItemPayload }
-            holder.bind(item, payloadList)
-        }
+        val payloadList = payloads.map { it as CartItemPayload }
+        holder.bind(item, payloadList)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<CartMenuItem>() {
@@ -49,11 +43,10 @@ class CartItemAdapter(
         override fun getChangePayload(
             oldItem: CartMenuItem,
             newItem: CartMenuItem
-        ): CartItemPayload? {
-            val payload = CartItemPayload(
-                count = newItem.count.takeIf { it != oldItem.count }
+        ): CartItemPayload {
+            return CartItemPayload(
+                countChanged = newItem.count != oldItem.count
             )
-            return payload.takeIf { it != CartItemPayload.EMPTY }
         }
     }
 }
@@ -80,34 +73,21 @@ class CartItemViewHolder(
         }
     }
 
-    fun bind(cartMenuItem: CartMenuItem) {
+    fun bind(cartMenuItem: CartMenuItem, payloads: List<CartItemPayload>) {
         item = cartMenuItem
 
         with(binding) {
             name.text = cartMenuItem.name
             price.text = itemView.context.getString(R.string.price, cartMenuItem.price)
-            updateCount(cartMenuItem.count)
+
+            if (payloads.isEmpty() || payloads.any { it.countChanged }) {
+                count.text = cartMenuItem.count.toString()
+                buttonRemove.isEnabled = cartMenuItem.count > 0
+            }
         }
-    }
-
-    fun bind(cartMenuItem: CartMenuItem, payloads: List<CartItemPayload>) {
-        bind(cartMenuItem)
-
-        payloads.forEach { payload ->
-            payload.count?.let(::updateCount)
-        }
-    }
-
-    private fun updateCount(count: Int) {
-        binding.count.text = count.toString()
-        binding.buttonRemove.isEnabled = count > 0
     }
 }
 
 data class CartItemPayload(
-    val count: Int? = null
-) {
-    companion object {
-        val EMPTY = CartItemPayload()
-    }
-}
+    val countChanged: Boolean = false
+)
